@@ -10,3 +10,7 @@ const renderCat = (cat) =>
 getCards().then((cats) => {
   cats.forEach(renderCat);
 });
+
+const handleLikeCard = () => {
+  console.log("Like");
+};
