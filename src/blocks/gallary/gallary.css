@@ -3,4 +3,9 @@
 
 .gallary {
   margin-block: var(--main-gap);
+  display: none;
+}
+
+.gallary.active {
+  display: block;
 }

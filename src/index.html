@@ -15,18 +15,29 @@
       <div class="content">
         <nav class="header__menu">
           <ul class="nav">
-            <li class="nav__item active">
-              <a href="#" class="nav__link">Все котики</a>
+            <li class="nav__item">
+              <button class="nav__button active" data-tab="allCats">
+                Все котики
+              </button>
             </li>
             <li class="nav__item">
-              <a href="#" class="nav__link">Любимые котики</a>
+              <button class="nav__button" data-tab="favouriteCats">
+                Любимые котики
+              </button>
             </li>
           </ul>
         </nav>
       </div>
     </header>
-    <main class="gallary content">
-      <ul class="gallary__list"></ul>
+    <main class="content">
+      <section class="gallary tab active" id="allCats">
+        <h2>Все котики</h2>
+        <ul class="gallary__list"></ul>
+      </section>
+      <section class="gallary tab" id="favouriteCats">
+        <h2>Любимые котики</h2>
+        <ul class="gallary__list"></ul>
+      </section>
     </main>
 
     <template id="card-template">
