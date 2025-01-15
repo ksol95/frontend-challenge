@@ -1,0 +1,9 @@
+.gallary__list {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-column-count), 1fr);
+  justify-content: center;
+  grid-gap: var(--main-gap);
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}

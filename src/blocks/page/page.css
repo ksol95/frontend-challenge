@@ -1,0 +1,26 @@
+:root {
+  --header-color: #2196f3;
+  --header-accent-color: #1976d2;
+  --header-text-color: #fff;
+  --main-text-color: #000;
+  --font-size: 14px;
+
+  --main-gap: 48px;
+  --max-width-content: 1316px;
+  --like-button-size: 40px;
+  --max-card-width: 225px;
+  --grid-column-count: 5;
+}
+
+
+html {
+  font-size: var(--font-size);
+  line-height: 1.5;
+  letter-spacing: 0.25px;
+  font-family: "Roboto", Arial, sans-serif;
+}
+
+.page {
+  background: #fff;
+  color: var(--main-text-color);
+}
