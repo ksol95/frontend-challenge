@@ -19,7 +19,12 @@
   scale: 0;
   transition: background-image 0.2s ease-in, scale 0.3s ease-in-out;
 }
-
-.card__like-button:hover {
+.card:hover .card__like-button,
+.like .card__like-button {
+  display: block;
+  scale: 0.877;
+}
+.card__like-button:hover,
+.like .card__like-button {
   background-image: url(../../../images/like-button-hovered.svg);
 }

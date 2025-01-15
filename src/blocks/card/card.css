@@ -12,10 +12,9 @@
 }
 .card:hover {
   scale: 1.14;
-  box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.24), 0px 9px 18px rgba(0, 0, 0, 0.18);
+  box-shadow: var(--card-shadow);
 }
 
-.card:hover .card__like-button {
-  display: block;
-  scale: 0.877;
+.card.like {
+  box-shadow: var(--card-shadow);
 }

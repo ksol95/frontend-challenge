@@ -10,8 +10,9 @@
   --like-button-size: 40px;
   --max-card-width: 225px;
   --grid-column-count: 5;
+  --card-shadow: 0px 6px 5px rgba(0, 0, 0, 0.24),
+    0px 9px 18px rgba(0, 0, 0, 0.18);
 }
-
 
 html {
   font-size: var(--font-size);
