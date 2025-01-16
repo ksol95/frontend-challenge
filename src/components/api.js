@@ -18,5 +18,19 @@ export const getCards = (limit = 10, page = 0) => {
       method: "GET",
       headers: requestConfig.headers,
     }
-  ).then(checkResponse);
+  )
+    .then(checkResponse)
+    .then((cats) => {
+      // let result = [];
+      // cats.forEach((cat) => {
+      //   result.push((({ id, url, like }) => ({ id, url, like: false }))(cat));
+      // });
+      // return result;
+      return cats.reduce((pr, cat) => {
+        return [
+          ...pr,
+          (({ id, url, like }) => ({ id, url, like: false }))(cat),
+        ];
+      }, []);
+    });
 };

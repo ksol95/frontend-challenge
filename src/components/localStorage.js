@@ -10,6 +10,19 @@ export class LocStorage {
   }
 
   static append(key, data) {
+    if (data instanceof Object) {
+      if (localStorage[key]) {
+        const currentValue = JSON.parse(localStorage[key]);
+        const newValue = [...currentValue, data];
+        localStorage.setItem(key, JSON.stringify(newValue));
+      } else {
+        const newValue = [];
+        newValue.push(data);
+        localStorage.setItem(key, JSON.stringify(newValue));
+      }
+      return;
+    }
+
     const currentValue = localStorage[key] ? localStorage[key] + "," : "";
 
     if (Array.isArray(data)) {

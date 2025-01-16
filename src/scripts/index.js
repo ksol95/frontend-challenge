@@ -9,14 +9,14 @@ const mainGallary = document.querySelector("#allCats .gallary__list");
 const favoriteGallary = document.querySelector("#favouriteCats .gallary__list");
 const tabs = document.querySelectorAll(".tab");
 const navButtons = document.querySelectorAll(".nav__button");
-
+// LocStorage.clear();
 // Добавление в галлерею любимых карточек (добавить в начало)
 const favoriteGallaryAdd = (item) => favoriteGallary.prepend(item);
 // Добавление карточки в главную галлерею (добавить в конец)
 const mainGallaryAdd = (item) => mainGallary.append(item);
 
 const like = (id) => {
-  !state.pushLike(id);
+  !state.pushLike(id, LocStorage.append("like", id));
   const find = state.findCardInNodeById(id, favoriteGallary);
   !find &&
     favoriteGallaryAdd(
@@ -25,7 +25,7 @@ const like = (id) => {
 };
 
 const unlike = (id) => {
-  state.likeDeleteById(id);
+  state.likeDeleteById(id, LocStorage.removeItem("like", id));
   const find = state.findCardInNodeById(id, favoriteGallary);
   find && find.remove(find);
 };
@@ -44,9 +44,11 @@ navButtons.forEach((button) =>
 
 //Получение карточек
 getCards(state.store.limit, state.store.page).then((cats) => {
+  let localCards = LocStorage.get("cards");
+  // console.log(localCards && JSON.parse(localCards));
   cats.forEach((cat) => {
     if (!state.findCardById(cat.id)) {
-      state.pushCard({ like: false, ...cat });
+      state.pushCard(cat, LocStorage.append("cards", cat));
       mainGallaryAdd(createCard(cardTemplate, cat, handleLikeCard));
     }
   });
