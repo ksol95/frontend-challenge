@@ -13,14 +13,31 @@
   --max-card-width: 100%;
   --grid-column-count: 1;
   --gallary-padding: 1rem;
+
+  --button-like-start-scale: 1;
+  --card-scale-on-hover: 1;
 }
 @media (width > 700px) {
   :root {
     --font-size: 14px;
     --main-gap: 48px;
-    --max-width-content: 1316px;
     --like-button-size: 40px;
-    --max-card-width: 225px;
+
+    --grid-column-count: 3;
+    --button-like-start-scale: 0;
+    --card-scale-on-hover: 1.14;
+  }
+}
+@media (width > 1023px) {
+  :root {
     --grid-column-count: 5;
+    --max-card-width: 225px;
+  }
+}
+@media (width > 1316px) {
+  :root {
+    --max-width-content: 1316px;
+    --grid-column-count: 5;
+    --gallary-padding: 0rem;
   }
 }

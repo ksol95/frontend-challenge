@@ -16,15 +16,23 @@
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  scale: 0;
   transition: background-image 0.2s ease-in, scale 0.3s ease-in-out;
+
+  scale: var(--button-like-start-scale);
 }
-.card:hover .card__like-button,
-.like .card__like-button {
-  display: block;
-  scale: 0.877;
-}
-.card__like-button:hover,
+
 .like .card__like-button {
   background-image: url(../../../images/like-button-hovered.svg);
+}
+
+@media (width > 700px) {
+  .card:hover .card__like-button,
+  .like .card__like-button {
+    /* display: block; */
+    scale: 0.877;
+  }
+
+  .card__like-button:hover {
+    background-image: url(../../../images/like-button-hovered.svg);
+  }
 }

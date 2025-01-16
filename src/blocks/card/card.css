@@ -10,8 +10,9 @@
 
   transition: scale 0.2s ease-in-out, box-shadow 0.2s ease-in;
 }
+
 .card:hover {
-  scale: 1.14;
+  scale: var(--card-scale-on-hover);
   box-shadow: var(--card-shadow);
 }
 
