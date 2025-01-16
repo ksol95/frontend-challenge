@@ -21,11 +21,6 @@ export const getCards = (limit = 10, page = 0) => {
   )
     .then(checkResponse)
     .then((cats) => {
-      // let result = [];
-      // cats.forEach((cat) => {
-      //   result.push((({ id, url, like }) => ({ id, url, like: false }))(cat));
-      // });
-      // return result;
       return cats.reduce((pr, cat) => {
         return [
           ...pr,

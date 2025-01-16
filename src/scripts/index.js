@@ -9,11 +9,11 @@ const mainGallary = document.querySelector("#allCats .gallary__list");
 const favoriteGallary = document.querySelector("#favouriteCats .gallary__list");
 const tabs = document.querySelectorAll(".tab");
 const navButtons = document.querySelectorAll(".nav__button");
-// LocStorage.clear();
 // Добавление в галлерею любимых карточек (добавить в начало)
 const favoriteGallaryAdd = (item) => favoriteGallary.prepend(item);
 // Добавление карточки в главную галлерею (добавить в конец)
 const mainGallaryAdd = (item) => mainGallary.append(item);
+if (!state.store.localStorage) LocStorage.clear();
 
 const like = (id) => {
   !state.pushLike(id, LocStorage.append("like", id));
@@ -37,22 +37,32 @@ function handleLikeCard(id) {
   card.classList.contains("like") ? like(id) : unlike(id);
 }
 
-// Инициализация навигации
-navButtons.forEach((button) =>
-  button.addEventListener("click", (e) => selectTab(e.target, navButtons, tabs))
-);
-
-//Получение карточек
-getCards(state.store.limit, state.store.page).then((cats) => {
+//Получение карточек из стора
+async function loadFromLocalStorage() {
   let localCards = LocStorage.get("cards");
-  // console.log(localCards && JSON.parse(localCards));
-  cats.forEach((cat) => {
-    if (!state.findCardById(cat.id)) {
-      state.pushCard(cat, LocStorage.append("cards", cat));
-      mainGallaryAdd(createCard(cardTemplate, cat, handleLikeCard));
-    }
+  if (localCards.length) {
+    localCards = JSON.parse(localCards);
+    localCards.forEach((item) => state.pushCard(item));
+  }
+  let localLike = LocStorage.get("like");
+  if (localLike.length) {
+    localLike.forEach((item) => state.pushLike(item));
+  }
+  return state.store.cards.length;
+}
+
+// Получение карточек из API
+async function loadCardFromAPI(limit, page) {
+  await getCards(limit, page).then((cats) => {
+    cats.forEach((cat) => {
+      // Если в сторе нету карты с таким ID то дабавляем в стор
+      if (!state.findCardById(cat.id)) {
+        state.pushCard(cat, LocStorage.append("cards", cat));
+      }
+    });
   });
-});
+  return state.store.cards.length;
+}
 
 const renderMainGallary = (cat) => {
   // Если карточки нету в стейте
@@ -63,6 +73,19 @@ const renderMainGallary = (cat) => {
     !find && mainGallaryAdd(createCard(cardTemplate, cat, handleLikeCard));
   }
 };
+
+async function renderMainGallaryFromState() {
+  // Формируем виртаульный DOM галлереи для рендора
+  const virtualMainGallary = [];
+  // Формируем карточки на основе данных в стейте
+  state.store.cards.forEach((item) => {
+    virtualMainGallary.push(createCard(cardTemplate, item, handleLikeCard));
+  });
+  // Рендерим из виртального DOM только карточки которые небыли отрисованны до этого
+  await virtualMainGallary.forEach((elem) => {
+    !state.findCardInNodeById(elem.id, mainGallary) && mainGallaryAdd(elem);
+  });
+}
 
 const renderFavoriteGallary = () => {
   // Формируем виртаульный DOM галлереи для рендора
@@ -82,8 +105,8 @@ const renderFavoriteGallary = () => {
   });
   // Рендерим из виртального DOM только карточки которые небыли отрисованны до этого
   virtualFavoritGallary.forEach((elem) => {
-    const find = state.findCardInNodeById(elem.id, favoriteGallary);
-    !find && favoriteGallaryAdd(elem);
+    !state.findCardInNodeById(elem.id, favoriteGallary) &&
+      favoriteGallaryAdd(elem);
   });
 };
 
@@ -101,3 +124,21 @@ document.addEventListener("activeTab", (e) => {
     }
   }
 });
+
+function initApp() {
+  loadFromLocalStorage()
+    .then((count) => state.store.limit - count)
+    .then((count) => count > 1 && loadCardFromAPI(count, 0))
+    .then(() => renderMainGallaryFromState())
+    .finally(() => {
+      // Инициализация навигации
+      navButtons.forEach((button) =>
+        button.addEventListener("click", (e) =>
+          selectTab(e.target, navButtons, tabs)
+        )
+      );
+    })
+    .catch(console.error);
+}
+
+initApp();
