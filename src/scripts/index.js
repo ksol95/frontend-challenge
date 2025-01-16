@@ -2,6 +2,7 @@ import * as state from "../components/state.js";
 import { getCards } from "../components/api.js";
 import { createCard } from "../components/card.js";
 import { selectTab } from "../components/tabs.js";
+import { LocStorage } from "../components/localStorage.js";
 
 const cardTemplate = document.querySelector("#card-template").content;
 const gallaryAllCats = document.querySelector("#allCats .gallary__list");
@@ -11,16 +12,16 @@ const navButtons = document.querySelectorAll(".nav__button");
 
 const like = (id) => {
   !state.pushLike(id);
-  const find = state.findLikeInDomById(id, favoriteGallary);
+  const find = state.findCardInNodeById(id, favoriteGallary);
   !find &&
-    favoriteGallary.append(
+    favoriteGallary.prepend(
       createCard(cardTemplate, state.findCardById(id), handleLikeCard)
     );
 };
 
 const unlike = (id) => {
   state.likeDeleteById(id);
-  const find = state.findLikeInDomById(id, favoriteGallary);
+  const find = state.findCardInNodeById(id, favoriteGallary);
   find && find.remove(find);
 };
 
@@ -37,7 +38,7 @@ navButtons.forEach((button) =>
 );
 
 //Получение карточек
-getCards().then((cats) => {
+getCards(state.store.limit, state.store.page).then((cats) => {
   cats.forEach((cat) => {
     if (!state.findCardById(cat.id)) {
       state.pushCard({ like: false, ...cat });
@@ -62,8 +63,8 @@ const renderFavoriteCats = () => {
   });
 
   virtualFavoritGallary.forEach((elem) => {
-    const find = state.findLikeInDomById(elem.id, favoriteGallary);
-    !find && favoriteGallary.append(elem);
+    const find = state.findCardInNodeById(elem.id, favoriteGallary);
+    !find && favoriteGallary.prepend(elem);
   });
 };
 
