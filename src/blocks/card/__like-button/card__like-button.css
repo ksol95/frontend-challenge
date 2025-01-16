@@ -26,9 +26,18 @@
 }
 
 @media (width > 700px) {
-  .card:hover .card__like-button,
+  @media (hover: hover) {
+    .card:hover .card__like-button {
+      scale: 0.877;
+    }
+  }
+  @media (hover: none) {
+    .card__like-button {
+      scale: 0.877;
+    }
+  }
+
   .like .card__like-button {
-    /* display: block; */
     scale: 0.877;
   }
 

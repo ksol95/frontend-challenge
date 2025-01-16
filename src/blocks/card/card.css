@@ -10,12 +10,14 @@
 
   transition: scale 0.2s ease-in-out, box-shadow 0.2s ease-in;
 }
-
-.card:hover {
-  scale: var(--card-scale-on-hover);
-  box-shadow: var(--card-shadow);
+@media (width > 700px) {
+  @media (hover: hover) {
+    .card:hover {
+      scale: var(--card-scale-on-hover);
+      box-shadow: var(--card-shadow);
+    }
+  }
 }
-
 .card.like {
   box-shadow: var(--card-shadow);
 }
