@@ -9,6 +9,7 @@ const mainGallary = document.querySelector("#allCats .gallary__list");
 const favoriteGallary = document.querySelector("#favouriteCats .gallary__list");
 const tabs = document.querySelectorAll(".tab");
 const navButtons = document.querySelectorAll(".nav__button");
+
 // Добавление в галлерею любимых карточек (добавить в начало)
 const favoriteGallaryAdd = (item) => favoriteGallary.prepend(item);
 // Добавление карточки в главную галлерею (добавить в конец)
@@ -190,3 +191,12 @@ function initApp() {
 }
 
 initApp();
+
+const buttonMore = document.querySelector(".btn-more");
+buttonMore.addEventListener("click", () => {
+  loadCardFromAPI(1 /*указываем сколько карточек подгрузить через API */).then(
+    (res) => {
+      renderMainGallaryFromState();
+    }
+  );
+});
