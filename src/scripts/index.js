@@ -9,17 +9,39 @@ const mainGallary = document.querySelector("#allCats .gallary__list");
 const favoriteGallary = document.querySelector("#favouriteCats .gallary__list");
 const tabs = document.querySelectorAll(".tab");
 const navButtons = document.querySelectorAll(".nav__button");
-
 // Добавление в галлерею любимых карточек (добавить в начало)
 const favoriteGallaryAdd = (item) => favoriteGallary.prepend(item);
 // Добавление карточки в главную галлерею (добавить в конец)
 const mainGallaryAdd = (item) => mainGallary.append(item);
 if (!state.store.localStorage) LocStorage.clear();
+// Синзронизация стора с LS
 const syncLocalStore = () => {
   LocStorage.update("cards", [state.store.cards]);
   // Вариант с сохраненияем ID лайкнутых карточек отдельно
   LocStorage.update("like", state.store.likedCardsId);
 };
+// Загрузить ещё
+const buttonMore = document.querySelector(".btn-more");
+// Коллбэк выполняющиейся при попадании в фокус нижней кнопки - "ещё котов!"
+const observerCallback = (entries, observer) =>
+  entries.forEach((entry) => entry.isIntersecting && loadMoreCards());
+const options = {
+  threshold: 1,
+};
+const loadMoreCards = () => {
+  /*указываем сколько карточек подгрузить через API */
+  const count = state.store.limit;
+  buttonMore.disabled = true;
+  buttonMore.textContent = "... загружаем еще котиков ...";
+  loadCardFromAPI(count)
+    .then(() => renderMainGallaryFromState())
+    .finally(() => {
+      buttonMore.textContent = "ещё котов!";
+      buttonMore.disabled = false;
+    });
+};
+buttonMore.addEventListener("click", loadMoreCards);
+
 const like = (id) => {
   state.pushLike(id);
   syncLocalStore();
@@ -186,17 +208,11 @@ function initApp() {
           selectTab(e.target, navButtons, tabs)
         )
       );
+
+      const observer = new IntersectionObserver(observerCallback, options);
+      observer.observe(buttonMore);
     })
     .catch(console.error);
 }
 
 initApp();
-
-const buttonMore = document.querySelector(".btn-more");
-buttonMore.addEventListener("click", () => {
-  loadCardFromAPI(1 /*указываем сколько карточек подгрузить через API */).then(
-    (res) => {
-      renderMainGallaryFromState();
-    }
-  );
-});
