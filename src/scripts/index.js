@@ -9,10 +9,21 @@ const mainGallary = document.querySelector("#allCats .gallary__list");
 const favoriteGallary = document.querySelector("#favouriteCats .gallary__list");
 const tabs = document.querySelectorAll(".tab");
 const navButtons = document.querySelectorAll(".nav__button");
+
 // Добавление в галлерею любимых карточек (добавить в начало)
 const favoriteGallaryAdd = (item) => favoriteGallary.prepend(item);
 // Добавление карточки в главную галлерею (добавить в конец)
 const mainGallaryAdd = (item) => mainGallary.append(item);
+// Очистка LocalStorage
+const clearLS = document.querySelector(".clear-ls");
+clearLS.addEventListener("dblclick", () => {
+  LocStorage.clear();
+  document.body.style.backgroundColor = "red";
+  setTimeout(() => {
+    document.body.style = "";
+  }, 100);
+});
+// настройка в стейте вкл\выкл localStore
 if (!state.store.localStorage) LocStorage.clear();
 // Синзронизация стора с LS
 const syncLocalStore = () => {
@@ -30,7 +41,7 @@ const options = {
 };
 const loadMoreCards = () => {
   /*указываем сколько карточек подгрузить через API */
-  const count = state.store.limit;
+  const count = state.store.limit / 2;
   buttonMore.disabled = true;
   buttonMore.textContent = "... загружаем еще котиков ...";
   loadCardFromAPI(count)
@@ -189,8 +200,8 @@ document.addEventListener("activeTab", (e) => {
   }
 });
 
-function initApp() {
-  loadFromLocalStorage()
+async function initApp() {
+  await loadFromLocalStorage()
     //Получаем карточки из LS в стейт и вычесляем разницу между количесвтом
     // загруженных карточек и лимитом карточек
     .then((count) => state.store.limit - count)
@@ -198,6 +209,7 @@ function initApp() {
     .then((count) => count >= 1 && loadCardFromAPI(count, 0))
     // запускаем отрисовку из стейта
     .then(() => {
+      console.log("рендер");
       renderMainGallaryFromState();
       renderFavoriteGallary();
     })
@@ -208,11 +220,12 @@ function initApp() {
           selectTab(e.target, navButtons, tabs)
         )
       );
-
-      const observer = new IntersectionObserver(observerCallback, options);
-      observer.observe(buttonMore);
     })
     .catch(console.error);
 }
 
-initApp();
+initApp().then(() => {
+  console.log("Конец");
+  const observer = new IntersectionObserver(observerCallback, options);
+  observer.observe(buttonMore);
+});

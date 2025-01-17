@@ -1,0 +1,10 @@
+.clear-ls {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30px;
+  aspect-ratio: 1/1;
+  background-color: transparent;
+  border: 0;
+  color: transparent;
+}
