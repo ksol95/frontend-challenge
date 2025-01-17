@@ -48,17 +48,33 @@ async function loadFromLocalStorage() {
     localCards = JSON.parse(localCards);
     localCards.forEach((item) => state.pushCard(item));
   }
-  let localLike = LocStorage.get("like");
-  if (localLike.length) {
-    localLike.forEach((item) => state.pushLike(item));
+  // if (state.store.cards.length > 0) {
+  // Получаем ID лайкнутых карточек
+  const idLikedCard = state.store.cards
+    .filter((card) => card.like == true)
+    .map((item) => item.id);
+  // Получаем ID лайкнутых карточек из LS
+  const localLike = LocStorage.get("like");
+  // Объеденяем длв массива ID лайкнутых карточек, без повторений
+  const mergeLikes = [...new Set([...idLikedCard, ...localLike])];
+  // Если массив не пустой
+  if (mergeLikes.length > 0) {
+    mergeLikes.forEach((item) => {
+      // Проверяем есть ли такая карточка в массиве карточек
+      // и добавляем ее в массив лайков
+      state.findCardById(item) && state.pushLike(item);
+    });
   }
+  // } else {
+  //   // Ошибка, в случае если в LS небыло карточек, но были лайки
+  //   console.error("Ошибка: Некорректный LocalStore, произведена очистка");
+  //   LocStorage.clear();
+  // }
+
+  syncLocalStore();
   return state.store.cards.length;
 }
 
-function test() {
-  console.log("test");
-  LocStorage.append("cards", cat);
-}
 // Получение карточек из API
 async function loadCardFromAPI(limit, page) {
   await getCards(limit, page).then((cats) => {
@@ -123,7 +139,6 @@ const renderFavoriteGallary = () => {
 	*/
   state.store.likedCardsId.forEach((favCats) => {
     const card = state.findCardById(favCats);
-    console.log(card);
     card &&
       virtualFavoritGallary.push(
         createCard(cardTemplate, card, handleLikeCard)

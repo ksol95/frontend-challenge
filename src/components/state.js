@@ -31,7 +31,6 @@ export const findCardInNodeById = (id, node) => {
 export const pushCard = (card, callBack) => {
   if (!store.cards.includes(card)) {
     store.cards.push(card);
-    console.log(store.cards);
     callBack && callBack();
     stateModificate("stateCardPush");
     return true;
@@ -39,18 +38,9 @@ export const pushCard = (card, callBack) => {
   return false;
 };
 
-const toggleStatus = async (id) => {
-  console.log(id);
-  let status = store.cards.find((card) => card.id == id).like;
-  console.log("Начальный статус " + status);
-  status = !status;
-  console.log("Новый статус - " + status);
-  store.cards.find((card) => card.id == id).like = status;
-  console.log(
-    "Новый статус в стейте - " + store.cards.find((card) => card.id == id).like
-  );
-  return store.cards.find((card) => card.id == id).like;
-};
+const toggleStatus = async (id) =>
+  (store.cards.find((card) => card.id == id).like ^= true);
+
 // Переключенеие статуса лайка карточки
 export const cardLikeStatusToggle = (id, callBack) => {
   toggleStatus(id).then(callBack && callBack());
