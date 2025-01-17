@@ -31,6 +31,7 @@ export const findCardInNodeById = (id, node) => {
 export const pushCard = (card, callBack) => {
   if (!store.cards.includes(card)) {
     store.cards.push(card);
+    console.log(store.cards);
     callBack && callBack();
     stateModificate("stateCardPush");
     return true;
@@ -38,19 +39,28 @@ export const pushCard = (card, callBack) => {
   return false;
 };
 
+const toggleStatus = async (id) => {
+  console.log(id);
+  let status = store.cards.find((card) => card.id == id).like;
+  console.log("Начальный статус " + status);
+  status = !status;
+  console.log("Новый статус - " + status);
+  store.cards.find((card) => card.id == id).like = status;
+  console.log(
+    "Новый статус в стейте - " + store.cards.find((card) => card.id == id).like
+  );
+  return store.cards.find((card) => card.id == id).like;
+};
 // Переключенеие статуса лайка карточки
 export const cardLikeStatusToggle = (id, callBack) => {
-  return (
-    stateModificate("stateCardLikeStatusToggle"),
-    callBack && callBack(),
-    (store.cards.find((card) => card.id == id).like ^= true)
-  );
+  toggleStatus(id).then(callBack && callBack());
+  stateModificate("stateCardLikeStatusToggle");
 };
 
 // Добавление только уникальных лайков
-export const pushLike = (id, callBack) => {
+export const pushLike = async (id, callBack) => {
   if (!store.likedCardsId.includes(id)) {
-    store.likedCardsId.push(id);
+    await store.likedCardsId.push(id);
     callBack && callBack();
     stateModificate("stateLikePush");
     return true;
