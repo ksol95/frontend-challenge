@@ -8,7 +8,7 @@
   z-index: 1;
   bottom: 28px;
   right: 28px;
-  block-size: var(--like-button-size);
+  block-size: var(--like-btn-size);
   aspect-ratio: 1/1;
   background-color: transparent;
   background-image: url(../../../images/like-button.svg);
@@ -18,7 +18,7 @@
   background-position: center;
   transition: background-image 0.2s ease-in, scale 0.3s ease-in-out;
 
-  scale: var(--button-like-start-scale);
+  scale: var(--btn-like-start-scale);
 }
 
 .like .card__like-button {

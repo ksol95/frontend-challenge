@@ -31,20 +31,20 @@
     </header>
     <main class="content">
       <section class="gallary tab active" id="allCats">
-        <ul class="gallary__list"></ul>
+        <div class="gallary__list"></div>
         <button class="btn-more">ещё котов!</button>
       </section>
       <section class="gallary tab" id="favouriteCats">
-        <ul class="gallary__list"></ul>
+        <div class="gallary__list"></div>
       </section>
     </main>
     <button class="clear-ls"></button>
 
     <template id="card-template">
-      <li class="cats__item card">
+      <article class="card">
         <img class="card__image" src="" alt="" />
         <button type="button" class="card__like-button"></button>
-      </li>
+      </article>
     </template>
   </body>
 </html>

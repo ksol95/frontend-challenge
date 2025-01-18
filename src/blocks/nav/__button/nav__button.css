@@ -4,7 +4,7 @@
   border: 0;
   cursor: pointer;
   color: inherit;
-  padding: 23px 28px;
+  padding: var(--nav-btn-padding);
   opacity: 0.7;
 }
 .nav__button.active,

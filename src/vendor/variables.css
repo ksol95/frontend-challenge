@@ -9,22 +9,27 @@
   --font-size: 14px;
   --main-gap: 48px;
   --max-width-content: 100%;
-  --like-button-size: 40px;
+  --like-btn-size: 40px;
   --max-card-width: 100%;
   --grid-column-count: 1;
+  --header-max-height: 64px;
+  --gallary-min-height: calc(
+    100vh - var(--header-max-height) - var(--main-gap)
+  );
   --gallary-padding: 1.2rem;
+  --nav-btn-padding: 23px 28px;
 
-  --button-like-start-scale: 1;
+  --btn-like-start-scale: 1;
   --card-scale-on-hover: 1;
 }
 @media (width > 700px) {
   :root {
     --font-size: 14px;
     --main-gap: 48px;
-    --like-button-size: 40px;
+    --like-btn-size: 40px;
 
     --grid-column-count: 3;
-    --button-like-start-scale: 0;
+    --btn-like-start-scale: 0;
     --card-scale-on-hover: 1.14;
   }
 }

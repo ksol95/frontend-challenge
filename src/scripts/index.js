@@ -41,15 +41,17 @@ const options = {
 };
 const loadMoreCards = () => {
   /*указываем сколько карточек подгрузить через API */
-  const count = state.store.limit / 2;
+  const count = state.store.more;
   buttonMore.disabled = true;
   buttonMore.textContent = "... загружаем еще котиков ...";
-  loadCardFromAPI(count)
-    .then(() => renderMainGallaryFromState())
-    .finally(() => {
-      buttonMore.textContent = "ещё котов!";
-      buttonMore.disabled = false;
-    });
+  if (count >= 1) {
+    loadCardFromAPI(count)
+      .then(() => renderMainGallaryFromState())
+      .finally(() => {
+        buttonMore.textContent = "ещё котов!";
+        buttonMore.disabled = false;
+      });
+  }
 };
 buttonMore.addEventListener("click", loadMoreCards);
 
@@ -209,7 +211,6 @@ async function initApp() {
     .then((count) => count >= 1 && loadCardFromAPI(count, 0))
     // запускаем отрисовку из стейта
     .then(() => {
-      console.log("рендер");
       renderMainGallaryFromState();
       renderFavoriteGallary();
     })
@@ -225,7 +226,6 @@ async function initApp() {
 }
 
 initApp().then(() => {
-  console.log("Конец");
   const observer = new IntersectionObserver(observerCallback, options);
   observer.observe(buttonMore);
 });

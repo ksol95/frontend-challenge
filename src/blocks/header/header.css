@@ -4,5 +4,6 @@
   flex-shrink: 0;
   background-color: var(--header-color);
   color: var(--header-text-color);
+  max-height: var(--header-max-height);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.24);
 }
