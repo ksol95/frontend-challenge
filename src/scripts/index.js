@@ -10,9 +10,9 @@ const favoriteGallary = document.querySelector("#favouriteCats .gallary__list");
 const tabs = document.querySelectorAll(".tab");
 const navButtons = document.querySelectorAll(".nav__button");
 
-// Добавление в галлерею любимых карточек (добавить в начало)
+// Добавление в галерею любимых карточек (добавить в начало)
 const favoriteGallaryAdd = (item) => favoriteGallary.prepend(item);
-// Добавление карточки в главную галлерею (добавить в конец)
+// Добавление карточки в главную галерею (добавить в конец)
 const mainGallaryAdd = (item) => mainGallary.append(item);
 // Очистка LocalStorage
 const clearLS = document.querySelector(".clear-ls");
@@ -127,7 +127,7 @@ async function loadCardFromAPI(limit, page) {
 }
 
 function renderMainGallaryFromState() {
-  // Формируем виртаульный DOM галлереи для рендора
+  // Формируем виртаульный DOM галереи для рендора
   const virtualMainGallary = [];
   // Формируем карточки на основе данных в стейте
   state.store.cards.forEach((item) => {
@@ -144,7 +144,7 @@ function renderMainGallaryFromState() {
 	(не сохраняется порядок)
 */
 // function renderFavoriteGallary() {
-//   // Формируем виртаульный DOM галлереи для рендора
+//   // Формируем виртаульный DOM галереи для рендора
 //   const virtualFavoritGallary = [];
 //   // Формируем карточки на основе данных в стейте
 //   state.store.cards.forEach((item) => {
@@ -165,13 +165,13 @@ function renderMainGallaryFromState() {
 	(сохраняется порядок лайкнутых карточек)
 */
 const renderFavoriteGallary = () => {
-  // Формируем виртаульный DOM галлереи для рендора
+  // Формируем виртаульный DOM галереи для рендора
   const virtualFavoritGallary = [];
   /*
 		Перебераем ID лайкнутых карточек из стейта
 		Если в стейте есть карточка с данным ID
 		формируем карточку и записываем ее в
-		вертаульнуюю копию DOM галлереии
+		вертаульнуюю копию DOM галереии
 	*/
   state.store.likedCardsId.forEach((favCats) => {
     const card = state.findCardById(favCats);
