@@ -7,8 +7,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--main-gap);
-  margin-block-start: var(--main-gap);
-  /* min-height: calc(100vh - var(--header-max-height)); */
+  margin-block: var(--main-gap);
   min-height: var(--gallary-min-height);
 }
 

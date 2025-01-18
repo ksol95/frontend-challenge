@@ -15,7 +15,7 @@
   --grid-column-count: 1;
   --header-max-height: 64px;
   --gallary-min-height: calc(
-    100vh - var(--header-max-height) - var(--main-gap)
+    100vh - var(--header-max-height) - var(--main-gap) * 2
   );
   --gallary-padding: 1.2rem;
   --nav-btn-padding: 23px 28px;
