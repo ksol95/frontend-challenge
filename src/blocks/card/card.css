@@ -1,10 +1,11 @@
 @import url("./__image/card__image.css");
 @import url("./__like-button/card__like-button.css");
+@import url("./__preloader/card__preloader.css");
 
 .card {
   aspect-ratio: 1/1;
   max-width: var(--max-card-width);
-  background-color: #eee;
+  background-color: var(--card-background);
   overflow: hidden;
   position: relative;
 
